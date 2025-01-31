@@ -1,29 +1,26 @@
 let amigos = []; // Lista para armazenar os nomes
 
-// Função para adicionar amigos à lista
 function adicionarAmigo() {
     const input = document.getElementById("amigo");
-    const nome = input.value.trim(); // Remove espaços extras
+    const nome = input.value.trim();
 
     if (!validarNome(nome)) {
         alert("Por favor, digite um nome válido!");
         return;
     }
 
-    amigos.push(nome); // Adiciona o nome à lista
-    atualizarLista(); // Atualiza a exibição na tela
-    input.value = ""; // Limpa o campo de entrada
+    amigos.push(nome);
+    atualizarLista();
+    input.value = "";
 }
 
-// Função para validar se o nome é válido
 function validarNome(nome) {
-    return nome !== ""; // Valida se o nome não está vazio
+    return nome !== "";
 }
 
-// Atualiza a lista de amigos na tela
 function atualizarLista() {
     const lista = document.getElementById("listaAmigos");
-    lista.innerHTML = ""; // Limpa a lista antes de adicionar os novos nomes
+    lista.innerHTML = "";
 
     amigos.forEach((amigo) => {
         const li = document.createElement("li");
@@ -32,7 +29,6 @@ function atualizarLista() {
     });
 }
 
-// Função para sortear um amigo secreto
 function sortearAmigo() {
     if (amigos.length < 2) {
         alert("Adicione pelo menos dois amigos para sortear!");
@@ -43,14 +39,23 @@ function sortearAmigo() {
     exibirResultado(amigoSorteado);
 }
 
-// Função para realizar o sorteio aleatório
 function sorteioAleatorio(lista) {
     const indexSorteado = Math.floor(Math.random() * lista.length);
     return lista[indexSorteado];
 }
 
-// Função para exibir o resultado do sorteio
 function exibirResultado(amigoSorteado) {
     const resultado = document.getElementById("resultado");
     resultado.innerHTML = `<li>🎉 O amigo secreto é: <strong>${amigoSorteado}</strong> 🎁</li>`;
+
+    // Pergunta após exibir o resultado
+    setTimeout(() => {
+        const novoSorteio = confirm("Deseja realizar um novo sorteio?");
+        if (novoSorteio) {
+            amigos = []; // Limpa a lista de amigos
+            atualizarLista(); // Atualiza a lista na tela
+            document.getElementById("resultado").innerHTML = ""; // Limpa o resultado anterior
+            sortearAmigo(); // Realiza um novo sorteio
+        }
+    }, 500); // Atraso para garantir que o resultado seja exibido primeiro
 }
